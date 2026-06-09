@@ -5,7 +5,7 @@ warnings.filterwarnings("ignore", message="pkg_resources is deprecated")
 import jieba
 import sys
 import os
-from random import sample, shuffle
+from random import sample, shuffle, randint
 
 params = sys.argv[1:]
 DB = ['最直接', '最真相', '最不绕弯', '最扎心', '最硬核', '最干脆', '最不墨迹', '最戳痛点', '最不留情面', '最一针见血',
@@ -20,6 +20,29 @@ DB = ['最直接', '最真相', '最不绕弯', '最扎心', '最硬核', '最�
       '最不讲虚的',
       '最不玩套路', '最不搞形式', '最不整虚头巴脑', '最只讲干货', '最只说重点', '最只给结果', '最只聊真相',
       '最只谈核心', '最只戳关键']
+
+
+def get_CCP_string(ori_string: str) -> str:
+    head = '哦欸'
+    body = '吼嗷嘿'
+    tail = '?!'
+    res = ''
+    if randint(0, 6) == 0:
+        res += sample(head, 1)[0]
+    sbody, rbody = sample(body, 2)
+    while randint(0, 70) > 21 + (len(res) >= 3)*12 + len(res)*6 - (len(res)<2)*8:
+        res += sbody
+        if randint(0, 7) == 0:
+            res += rbody
+            break
+    if not res and randint(0, 2) != 0:
+        res += head[0]
+    if len(res) == 1 and randint(0, 3) == 0:
+        res *= 2
+    if randint(0, 6) == 0:
+        res += sample(tail, 1)[0]
+
+    return ori_string + res
 
 
 def get_RTS_string(ori_string: str) -> str:
@@ -69,6 +92,9 @@ def set_model(model_) -> None:
         print('Switch to ReinetteTinekerrSpeaker.')
     if model_ == 1:
         print('Switch to DouBaoLikeSpeaker.')
+    if model_ == 2:
+        print('Switch to CCPSpeaker.')
+
 
 if __name__ == '__main__':
     if not os.path.exists('rts.cfg'):
@@ -113,5 +139,7 @@ if __name__ == '__main__':
                     print('dbln is an integer.')
                     sys.exit()
             res = get_DBL_string(oper, dbln)
+        if model == 50:
+            res = get_CCP_string(oper)
         print(res)
         os.system('pause')
