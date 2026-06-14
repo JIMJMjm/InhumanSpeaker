@@ -1,7 +1,7 @@
 # InhumanSpeaker
 
 ## Description
-A samll script that can make you speak like inhuman beings.
+A small script that can make you speak like inhuman beings.
 
 ## Usage
  - Install requirements.
